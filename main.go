@@ -5,9 +5,10 @@ var (
 )
 
 func main() {
+	RunGoRoutineExample()
+	RunAsyncWithCollectionResultExample()
+
 	InitializeLocalRedis(redisAddress)
 	SetInitialData()
 	RegisterRouter()
-
-	RunGoRoutineExample()
 }
