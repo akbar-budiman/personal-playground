@@ -40,6 +40,8 @@ func RegisterRouter() {
 
 	myRouter.HandleFunc("/saved-obj/properties", getSavedObjectsProps).Methods("GET")
 
+	myRouter.HandleFunc("/goroutine", RunGoRoutineExampleController)
+
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
 

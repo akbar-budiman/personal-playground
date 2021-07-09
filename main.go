@@ -8,4 +8,6 @@ func main() {
 	InitializeLocalRedis(redisAddress)
 	SetInitialData()
 	RegisterRouter()
+
+	RunGoRoutineExample()
 }
