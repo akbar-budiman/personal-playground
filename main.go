@@ -10,5 +10,6 @@ func main() {
 
 	InitializeLocalRedis(redisAddress)
 	SetInitialData()
+	RegisterConsumer()
 	RegisterRouter()
 }

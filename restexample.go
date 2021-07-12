@@ -22,6 +22,8 @@ type Document struct {
 var documents []Document
 
 func RegisterRouter() {
+	fmt.Println("Registering router")
+
 	documents = []Document{
 		{Id: 1, Title: "Daftar Belanja", Content: "Telur, Roti tawar, Laundry", LastUpdate: time.Now()},
 		{Id: 2, Title: "Agenda", Content: "Cari Kontrakan", LastUpdate: time.Now()},
@@ -41,6 +43,11 @@ func RegisterRouter() {
 	myRouter.HandleFunc("/saved-obj/properties", getSavedObjectsProps).Methods("GET")
 
 	myRouter.HandleFunc("/goroutine", RunGoRoutineExampleController)
+
+	myRouter.HandleFunc("/rect", addNewRect).Methods("POST")
+	myRouter.HandleFunc("/circle", addNewCircle).Methods("POST")
+
+	fmt.Println("Router registered.")
 
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
@@ -172,4 +179,26 @@ func getCertainGeometryProps(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 	}
+}
+
+func addNewRect(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method + " " + r.RequestURI)
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var newObj Rect
+	json.Unmarshal(reqBody, &newObj)
+
+	ProduceNewRect(&newObj)
+	w.WriteHeader(http.StatusCreated)
+}
+
+func addNewCircle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method + " " + r.RequestURI)
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var newObj Circle
+	json.Unmarshal(reqBody, &newObj)
+
+	ProduceNewCircle(&newObj)
+	w.WriteHeader(http.StatusCreated)
 }
