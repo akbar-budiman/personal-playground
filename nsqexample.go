@@ -77,20 +77,20 @@ func RegisterConsumer() {
 	fmt.Println("Registering consumer")
 	config := nsq.NewConfig()
 
-	// fmt.Println("Registering consumer : insertingConsumer")
-	// insertingConsumer, err := nsq.NewConsumer(addRectTopic, "channel", config)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// insertingConsumer.AddHandler(&ConsumeNewRectToInsert{})
+	fmt.Println("Registering consumer : insertingConsumer")
+	insertingConsumer, err := nsq.NewConsumer(addRectTopic, "channel1", config)
+	if err != nil {
+		panic(err)
+	}
+	insertingConsumer.AddHandler(&ConsumeNewRectToInsert{})
 
-	// err = insertingConsumer.ConnectToNSQLookupd(nsqlookupdAddress)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	err = insertingConsumer.ConnectToNSQLookupd(nsqlookupdAddress)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println("Registering consumer : reportingConsumer")
-	reportingConsumer, err := nsq.NewConsumer(addRectTopic, "channel", config)
+	reportingConsumer, err := nsq.NewConsumer(addRectTopic, "channel2", config)
 	if err != nil {
 		panic(err)
 	}
