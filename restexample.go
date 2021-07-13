@@ -47,25 +47,30 @@ func RegisterRouter() {
 	myRouter.HandleFunc("/rect", addNewRect).Methods("POST")
 	myRouter.HandleFunc("/circle", addNewCircle).Methods("POST")
 
+	myRouter.Use(printUri)
+
 	fmt.Println("Router registered.")
 
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
 
+func printUri(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.Method + " " + r.RequestURI)
+		next.ServeHTTP(w, r)
+	})
+}
+
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 }
 
 func getAllDocument(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(documents)
 }
 
 func addDocument(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
-
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var newDocument Document
 	json.Unmarshal(reqBody, &newDocument)
@@ -86,7 +91,6 @@ func addDocument(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCertainDocument(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
 	w.Header().Set("Content-Type", "application/json")
 
 	vars := mux.Vars(r)
@@ -104,8 +108,6 @@ func getCertainDocument(w http.ResponseWriter, r *http.Request) {
 }
 
 func removeCertainDocument(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
-
 	vars := mux.Vars(r)
 	idStrToSearch := vars["id"]
 	idIntToSearch, _ := strconv.ParseInt(idStrToSearch, 10, 0)
@@ -128,8 +130,6 @@ func removeCertainDocument(w http.ResponseWriter, r *http.Request) {
 }
 
 func addGeometryObj(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
-
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var newObj Rect
 	json.Unmarshal(reqBody, &newObj)
@@ -142,7 +142,6 @@ func addGeometryObj(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCertainGeometryObj(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
 	w.Header().Set("Content-Type", "application/json")
 
 	vars := mux.Vars(r)
@@ -159,7 +158,6 @@ func getCertainGeometryObj(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCertainGeometryProps(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
 	w.Header().Set("Content-Type", "application/json")
 
 	vars := mux.Vars(r)
@@ -182,8 +180,6 @@ func getCertainGeometryProps(w http.ResponseWriter, r *http.Request) {
 }
 
 func addNewRect(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
-
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var newObj Rect
 	json.Unmarshal(reqBody, &newObj)
@@ -193,8 +189,6 @@ func addNewRect(w http.ResponseWriter, r *http.Request) {
 }
 
 func addNewCircle(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method + " " + r.RequestURI)
-
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var newObj Circle
 	json.Unmarshal(reqBody, &newObj)
