@@ -11,16 +11,16 @@ var (
 )
 
 func RunChannelsExample() {
-	c := make(chan string)
+	greetings := make(chan string)
 
-	go CreateQuickGreeting("World", c)
-	go CreateLongGreeting("There", c)
+	go CreateQuickGreeting("World", greetings)
+	go CreateLongGreeting("There", greetings)
 
 	fmt.Println("Greeting is coming...")
 
 	start = time.Now()
-	fmt.Println(<-c)
-	fmt.Println(<-c)
+	fmt.Println(<-greetings)
+	fmt.Println(<-greetings)
 	duration = time.Since(start)
 	fmt.Println("duration:", duration)
 

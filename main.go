@@ -6,11 +6,11 @@ var (
 
 func main() {
 	RunChannelsExample()
-	// RunGoRoutineExample()
-	// RunAsyncWithCollectionResultExample()
+	RunGoRoutineExample()
+	RunAsyncWithCollectionResultExample()
 
-	// InitializeLocalRedis(redisAddress)
-	// SetInitialData()
-	// RegisterConsumer()
-	// RegisterRouter()
+	InitializeLocalRedis(redisAddress)
+	SetInitialData()
+	RegisterConsumer()
+	RegisterRouter()
 }
